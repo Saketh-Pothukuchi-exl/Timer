@@ -1,17 +1,12 @@
 import streamlit as st
 import time
-from datetime import datetime
-
-# Configure the Streamlit page
-# st.set_page_config(page_title="Countdown Timer", layout="centered")
+from datetime import datetime, timedelta
+import pytz
 
 # Configure the Streamlit page
 st.set_page_config(page_title="S&S's Countdown", layout="centered")
 
-
-
-# Page title and header
-# st.title("💖 Valentine's Day Countdown 💖")
+# Page title and centered header
 st.markdown(
     """
     <div style="text-align: center;">
@@ -20,11 +15,29 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+# # Page title and centered header
+# st.markdown(
+    # """
+    # <div style="text-align: center;">
+        # <h1>💖 S&S's Countdown 💖</h1>
+        # <h2>Counting down to 6 PM IST on February 14, 2025!</h2>
+    # </div>
+    # """,
+    # unsafe_allow_html=True,
+# )
 
+# Create a placeholder for the timer
 ph = st.empty()
 
-# Calculate the number of seconds until the target date and time
-N = int((datetime(2025, 2, 14, 18, 0, 0) - datetime.now()).total_seconds())
+# Target time: 6 PM IST on February 14, 2025
+ist = pytz.timezone("Asia/Kolkata")
+target_time = ist.localize(datetime(2025, 2, 14, 18, 0, 0))
+
+# Current time
+now = datetime.now(pytz.utc)
+
+# Calculate the total number of seconds until the target time
+N = int((target_time - now).total_seconds())
 
 # Countdown loop
 for secs in range(N, 0, -1):
